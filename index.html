@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Hub</title>
+  <link rel="icon" href="img/icone.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<body>
+  
+  <!-- Fixed-top navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <a class="navbar-brand" href="index.html"><i class="fas fa-book"></i> SMART HUB</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="books.html">Books</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contact.html">Contact Us</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container mt-5 pt-5">
+    <!-- Swiper Section -->
+    <section class="home">
+      <div class="row">
+        <div class="content">
+          <h3>The best online library</h3>
+          <p>More amazing book just for you!</p>
+          <a href="books.html" class="btn btn-primary">Read Now</a>
+        </div>
+        <div class="swiper booka-slider">
+          <div class="swiper-wrapper">
+            <a href="#" class="swiper-slide"><img src="img/book 1.jpg" alt="Book 1"></a>
+            <a href="#" class="swiper-slide"><img src="img/book2.jpg" alt="Book 2"></a>
+            <a href="#" class="swiper-slide"><img src="img/book3.jpg" alt="Book 3"></a>
+            <a href="#" class="swiper-slide"><img src="img/book4.jpg" alt="Book 4"></a>
+            <a href="#" class="swiper-slide"><img src="img/book5.jpg" alt="Book 5"></a>
+            <a href="#" class="swiper-slide"><img src="img/book6.jpg" alt="Book 6"></a>
+          </div>
+          <img src="img/stand.png" class="stand" alt="Stand">
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <!-- Custom JS -->
+  <script src="js/index.js"></script>
+  <!-- JavaScript and Bootstrap dependencies -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var swiper = new Swiper(".booka-slider", {
+        loop: true,
+        centeredSlides: true,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+        speed: 500,
+        breakpoints: {
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+        },
+      });
+    });
+  </script>
+</body>
+</html>
