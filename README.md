@@ -1,1 +1,1 @@
-this readme for samrt hub reading book using api
+this readme for smart hub appliction using google book api 
