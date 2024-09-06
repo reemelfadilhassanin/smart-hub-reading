@@ -639,3 +639,73 @@ body.night-mode .book-description {
   color: #fff;
   border: 1px solid #007bff;
 }
+/* Adjust the modal width */
+.modal-dialog {
+  max-width: 600px; /* You can set this to any value you need */
+  margin: 1.75rem auto;
+}
+
+/* Center the modal vertically */
+.modal-dialog {
+  display: flex;
+  align-items: center;
+}
+.modal-header {
+  background-color: #007bff; /* Change to any color you prefer */
+  color: white;
+  border-bottom: none; /* Remove border */
+}
+
+.modal-title {
+  font-size: 1.5rem; /* Adjust the font size as needed */
+  font-weight: bold; /* Bold title text */
+}
+
+.close {
+  color: white; /* Change close button color */
+  opacity: 1; /* Ensure the close button is fully visible */
+}
+.modal-body {
+  padding: 1.5rem; /* Padding inside the modal body */
+  background-color: #f9f9f9; /* Light background color */
+}
+
+.form-group label {
+  font-weight: bold; /* Make labels bold */
+}
+
+.form-control {
+  border-radius: 0.25rem; /* Adjust border radius if needed */
+  box-shadow: none; /* Remove default shadow */
+}
+.modal-footer {
+  background-color: #e9ecef; /* Light gray background */
+  border-top: none; /* Remove border */
+  padding: 1rem; /* Padding inside the footer */
+}
+
+.modal-footer .btn {
+  border-radius: 0.25rem; /* Rounded corners for buttons */
+  padding: 0.5rem 1rem; /* Increase button padding */
+  font-size: 1rem; /* Font size of button text */
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* Customize secondary button color */
+  color: white;
+}
+
+.btn-primary {
+  background-color: #007bff; /* Customize primary button color */
+  color: white;
+}
+@media (max-width: 576px) {
+  .modal-dialog {
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+  .modal-content {
+    border-radius: 0; /* Remove border radius on small screens */
+  }
+}
