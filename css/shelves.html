@@ -21,27 +21,59 @@
         transform: translateY(-30px);
       }
     }
-  
+
     /* Apply animation and color change on hover */
     .navbar-brand i {
       transition: color 0.3s ease, transform 0.3s ease;
     }
-  
+
     .navbar-brand i:hover {
-      color: #f7120a; /* Change to your preferred color */
+      color: #ff1e00; /* Change to your preferred color */
       animation: bounce 1s;
     }
-  
+
     /* Optional: Define other color states for different icons */
     .shelf-title i {
       transition: color 0.3s ease;
     }
-  
+
     .shelf-title i:hover {
       color: #1e90ff; /* Change to your preferred color */
     }
+
+    /* Shelf styles */
+    .shelf-row {
+      margin-bottom: 30px; /* Add space between rows */
+      border: 2px solid #007bff; /* Blue border for each shelf */
+      border-radius: 5px; /* Rounded corners */
+      padding: 15px; /* Padding inside the border */
+      background-color: #f9f9f9; /* Background color for the shelf */
+    }
+
+    .shelf-title {
+      margin-bottom: 15px; /* Space below the title */
+    }
+
+    .shelf-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .shelf-list li {
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: #fff;
+      position: relative;
+    }
+
+    .shelf-list li .btn-heart {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
   </style>
-  
 </head>
 <body>
   <!-- Fixed-top navbar -->
@@ -70,29 +102,34 @@
 
   <!-- Container for managing shelves -->
   <div class="container mt-5 pt-5">
-    <h1 class="text-center"></h1>
+    <h1 class="text-center">Manage Your Shelves</h1>
 
-    <div class="row mt-4">
-      <div class="col-md-4">
-        <h3 class="shelf-title"><i class="fas fa-book-reader"></i> Currently Reading</h3>
-        <ul id="currently-reading" class="shelf-list">
-          <!-- Books will be dynamically added here -->
-        </ul>
-      </div>
-      <div class="col-md-4">
-        <h3 class="shelf-title"><i class="fas fa-bookmark"></i> Want To Read</h3>
-        <ul id="want-to-read" class="shelf-list">
-          <!-- Books will be dynamically added here -->
-        </ul>
-      </div>
-      <div class="col-md-4">
-        <h3 class="shelf-title"><i class="fas fa-check-double"></i> Read</h3>
-        <ul id="read" class="shelf-list">
-          <!-- Books will be dynamically added here -->
-        </ul>
-      </div>
+    <!-- Shelf Rows -->
+    <div class="shelf-row">
+      <h3 class="shelf-title"><i class="fas fa-book-reader"></i> Currently Reading</h3>
+      <ul id="currently-reading" class="shelf-list">
+        <!-- Books will be dynamically added here -->
+      </ul>
     </div>
-    
+
+    <div class="shelf-row">
+      <h3 class="shelf-title"><i class="fas fa-bookmark"></i> Want To Read</h3>
+      <ul id="want-to-read" class="shelf-list">
+        <!-- Books will be dynamically added here -->
+      </ul>
+    </div>
+
+    <div class="shelf-row">
+      <h3 class="shelf-title"><i class="fas fa-check-double"></i> Read</h3>
+      <div id="read-empty-message" class="text-center" style="display: none;">
+        <img src="img/no_book-removebg-preview.png" alt="No Books" class="no-books-img">
+        <p class="no-books-text">Oh, you have no books in this shelf.</p>
+      </div>
+      <ul id="read" class="shelf-list">
+        <!-- Books will be dynamically added here -->
+      </ul>
+    </div>
+
     <!-- Button group for managing books -->
     <div class="btn-group-container d-flex flex-wrap justify-content-center mt-3">
       <button id="move-to-shelf" class="btn btn-custom btn-primary"><i class="fas fa-arrow-right"></i> Move to Shelf</button>
@@ -107,4 +144,3 @@
   <script src="js/shelves.js"></script>
 </body>
 </html>
- 

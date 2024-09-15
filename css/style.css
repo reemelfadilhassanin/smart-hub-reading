@@ -639,73 +639,218 @@ body.night-mode .book-description {
   color: #fff;
   border: 1px solid #007bff;
 }
-/* Adjust the modal width */
-.modal-dialog {
-  max-width: 600px; /* You can set this to any value you need */
-  margin: 1.75rem auto;
+/* Custom styles for Swiper slider */
+.swiper-container {
+  width: 100%;
+  height: 300px;
+  position: relative;
 }
 
-/* Center the modal vertically */
-.modal-dialog {
+.swiper-slide {
   display: flex;
+  justify-content: center;
   align-items: center;
-}
-.modal-header {
-  background-color: #007bff; /* Change to any color you prefer */
-  color: white;
-  border-bottom: none; /* Remove border */
+  background-color: #fff;
 }
 
-.modal-title {
-  font-size: 1.5rem; /* Adjust the font size as needed */
-  font-weight: bold; /* Bold title text */
+.swiper-slide img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
 }
 
-.close {
-  color: white; /* Change close button color */
-  opacity: 1; /* Ensure the close button is fully visible */
+.swiper-slide-text {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 3px;
 }
-.modal-body {
-  padding: 1.5rem; /* Padding inside the modal body */
-  background-color: #f9f9f9; /* Light background color */
-}
-
-.form-group label {
-  font-weight: bold; /* Make labels bold */
-}
-
-.form-control {
-  border-radius: 0.25rem; /* Adjust border radius if needed */
-  box-shadow: none; /* Remove default shadow */
-}
-.modal-footer {
-  background-color: #e9ecef; /* Light gray background */
-  border-top: none; /* Remove border */
-  padding: 1rem; /* Padding inside the footer */
-}
-
-.modal-footer .btn {
-  border-radius: 0.25rem; /* Rounded corners for buttons */
-  padding: 0.5rem 1rem; /* Increase button padding */
-  font-size: 1rem; /* Font size of button text */
+.shelf-list-item {
+  position: relative;
+  margin-bottom: 10px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background: #fff;
+  display: flex; /* Flexbox for layout */
+  align-items: center; /* Center items vertically */
+  justify-content: space-between; /* Space out items */
 }
 
-.btn-secondary {
-  background-color: #6c757d; /* Customize secondary button color */
-  color: white;
+/* Move button styling */
+.shelf-list-item .move-book {
+  font-size: 14px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  /* No margin for this button */
 }
 
-.btn-primary {
-  background-color: #007bff; /* Customize primary button color */
-  color: white;
+/* Hover effect for move button */
+.shelf-list-item .move-book:hover {
+  background-color: #0056b3;
 }
+
+/* Heart button styling */
+.shelf-list-item .btn-heart {
+  font-size: 1.5rem;
+  color: #ccc;
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: color 0.3s ease;
+  /* No margin for this button */
+}
+
+/* Style for liked state */
+.shelf-list-item .btn-heart.liked {
+  color: red;
+}
+
+/* Delete button styling */
+.shelf-list-item .btn-delete {
+  font-size: 14px;
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  /* Margin left to push to the right */
+}
+
+/* Hover effect for delete button */
+.shelf-list-item .btn-delete:hover {
+  background-color: #c82333;
+}
+
+/* Book title container styling */
+.shelf-list-item .book-title-container {
+  display: flex; /* Flexbox for title and heart button alignment */
+  align-items: center; /* Center items vertically */
+  gap: 10px; /* Space between title and heart button */
+  flex: 1; /* Take up available space */
+  margin: 0 15px; /* Space around the title container */
+}
+
+/* Book title styling */
+.shelf-list-item .book-title {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  gap: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .shelf-list-item {
+    flex-direction: column; /* Stack items vertically on smaller screens */
+    align-items: flex-start; /* Align items to the start */
+    gap: 10px; /* Space between stacked elements */
+  }
+
+  .shelf-list-item .book-title-container {
+    flex-direction: column; /* Stack title and button vertically on smaller screens */
+    align-items: flex-start; /* Align items to the start */
+    width: 100%; /* Full width */
+  }
+
+  .shelf-list-item .move-book,
+  .shelf-list-item .btn-delete {
+    width: 100%; /* Make buttons take full width */
+    text-align: center; /* Center text in buttons */
+  }
+
+  .shelf-list-item .btn-heart {
+    font-size: 1.2rem; /* Adjust size for small screens */
+  }
+}
+
 @media (max-width: 576px) {
-  .modal-dialog {
-    margin: 0;
-    max-width: 100%;
-    width: 100%;
+  .shelf-list-item {
+    padding: 10px; /* Reduce padding for very small screens */
   }
-  .modal-content {
-    border-radius: 0; /* Remove border radius on small screens */
+
+  .shelf-list-item .btn-heart,
+  .shelf-list-item .move-book,
+  .shelf-list-item .btn-delete {
+    font-size: 0.9rem; /* Further reduce font size */
+    padding: 4px 8px; /* Adjust padding */
   }
+}
+/* Footer styling */
+.footer {
+  background-color: #343a40; /* Dark background */
+  color: #fff; /* White text */
+}
+
+.footer h5 {
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.footer p, .footer ul {
+  font-size: 14px;
+}
+
+.footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.footer .list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.footer .text-center {
+  margin-top: 20px;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .footer .row {
+    text-align: center;
+  }
+
+  .footer .col-md-3 {
+    margin-bottom: 20px;
+  }
+}
+
+/* Styles for the message when the shelf is empty */
+#read-empty-message {
+  margin-top: 20px;
+}
+
+.no-books-img {
+  width: 150px; /* Adjust width as needed */
+  height: auto;
+  margin-bottom: 10px;
+  border-radius: 8px; /* Rounded corners for the image */
+}
+
+.no-books-text {
+  font-size: 20px; /* Adjust font size as needed */
+  font-weight: bold; /* Make the text bold */
+  color: #333; /* Dark grey color for the text */
+  background-color: #f8d7da; /* Light red background for emphasis */
+  border: 1px solid #f5c6cb; /* Border matching the background color */
+  padding: 15px; /* Padding inside the message box */
+  border-radius: 8px; /* Rounded corners */
+  display: inline-block; /* Center align the message box */
 }
