@@ -16,7 +16,6 @@ $(document).ready(function() {
         for (var shelf in books) {
             var shelfId = "#" + shelf;
 
-            // Ensure shelf exists and is an array
             if (!Array.isArray(books[shelf])) {
                 console.error(`Expected an array for shelf: ${shelf}. Initializing as empty array.`);
                 books[shelf] = [];
@@ -36,10 +35,15 @@ $(document).ready(function() {
                             <div class="book-title-container">
                                 <span class="book-title">${book.title} by ${book.author}</span>
                                 ${moveButton}
+                                <button class="btn btn-sm btn-primary comment-button" data-title="${book.title}" data-author="${book.author}">Comment</button>
                             </div>
                             <button class="btn-heart ${isFavorite ? 'liked' : ''}" data-title="${book.title}" data-author="${book.author}">
                                 ${isFavorite ? '❤︎' : '♡'}
                             </button>
+                            <div class="book-info">
+                                <p><strong>Comment:</strong> ${book.comment || 'No comment'}</p>
+                                <p><strong>Date:</strong> ${book.date || 'No date'}</p>
+                            </div>
                         </li>`
                     );
                     seenBooks.add(bookKey);
@@ -70,8 +74,11 @@ $(document).ready(function() {
         }[currentShelf];
 
         if (nextShelf) {
+            var bookToMove = books[currentShelf].find(book => book.title === bookTitle && book.author === bookAuthor);
             removeBookFromAllShelves(bookTitle, bookAuthor);
-            books[nextShelf].push({ title: bookTitle, author: bookAuthor });
+            if (bookToMove) {
+                books[nextShelf].push(bookToMove);
+            }
             localStorage.setItem('books', JSON.stringify(books));
             renderShelves();
         }
@@ -114,6 +121,42 @@ $(document).ready(function() {
         renderShelves();
         renderRecommendations();
     });
+
+    $(document).on('click', '.comment-button', function() {
+        var title = $(this).data('title');
+        var author = $(this).data('author');
+        var book = books['currently-reading'].concat(books['want-to-read'], books['read'])
+            .find(b => b.title === title && b.author === author);
+
+        $('#comment').val(book ? book.comment || '' : '');
+        $('#date').val(book ? book.date || '' : '');
+        $('#commentModal').data('title', title).data('author', author).modal('show');
+    });
+
+    $('#save-comment').click(function() {
+        var title = $('#commentModal').data('title');
+        var author = $('#commentModal').data('author');
+        var comment = $('#comment').val();
+        var date = $('#date').val();
+
+        updateBookInfo(title, author, { comment, date });
+        $('#commentModal').modal('hide');
+        renderShelves();
+    });
+
+    function updateBookInfo(title, author, info) {
+        books = Object.keys(books).reduce((acc, shelf) => {
+            acc[shelf] = books[shelf].map(book => {
+                if (book.title === title && book.author === author) {
+                    return { ...book, ...info };
+                }
+                return book;
+            });
+            return acc;
+        }, {});
+
+        localStorage.setItem('books', JSON.stringify(books));
+    }
 
     function renderRecommendations() {
         var recommendedBooks = $('#recommended-books');
