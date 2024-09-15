@@ -29,21 +29,18 @@ $(document).ready(function() {
                 if (!seenBooks.has(bookKey)) {
                     var moveButton = shelf !== "read" ? `<button class="btn btn-sm btn-info move-book" data-shelf="${shelf}" data-title="${book.title}" data-author="${book.author}">Move</button>` : '';
                     var isFavorite = favorites.some(fav => fav.title === book.title && fav.author === book.author);
+                    var tooltipContent = `<strong>Comment:</strong> ${book.comment || 'No comment'}<br><strong>Date:</strong> ${book.date || 'No date'}`;
 
                     $(shelfId).append(
                         `<li class="shelf-list-item">
                             <div class="book-title-container">
                                 <span class="book-title">${book.title} by ${book.author}</span>
                                 ${moveButton}
-                                <button class="btn btn-sm btn-primary comment-button" data-title="${book.title}" data-author="${book.author}">Comment</button>
+                                <button class="btn btn-sm btn-primary comment-button" data-title="${book.title}" data-author="${book.author}" data-toggle="tooltip" data-html="true" title="${tooltipContent}">Comment</button>
                             </div>
                             <button class="btn-heart ${isFavorite ? 'liked' : ''}" data-title="${book.title}" data-author="${book.author}">
                                 ${isFavorite ? '❤︎' : '♡'}
                             </button>
-                            <div class="book-info">
-                                <p><strong>Comment:</strong> ${book.comment || 'No comment'}</p>
-                                <p><strong>Date:</strong> ${book.date || 'No date'}</p>
-                            </div>
                         </li>`
                     );
                     seenBooks.add(bookKey);
@@ -56,6 +53,9 @@ $(document).ready(function() {
                 $("#read-empty-message").hide();
             }
         }
+
+        // Re-initialize tooltips after dynamic content is added
+        $('[data-toggle="tooltip"]').tooltip();
     }
 
     function removeBookFromAllShelves(bookTitle, bookAuthor) {
