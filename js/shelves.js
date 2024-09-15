@@ -84,23 +84,6 @@ $(document).ready(function() {
         moveToNextShelf(bookTitle, bookAuthor, shelfFrom);
     });
 
-    $("#move-to-shelf").click(function() {
-        var shelfFrom = prompt("Enter the shelf to move books from (currently-reading, want-to-read, read):");
-        var shelfTo = prompt("Enter the shelf to move books to (currently-reading, want-to-read, read):");
-
-        if (books[shelfFrom] && books[shelfTo]) {
-            books[shelfFrom].forEach(function(book) {
-                moveToNextShelf(book.title, book.author, shelfFrom);
-            });
-
-            books[shelfFrom] = [];
-            localStorage.setItem('books', JSON.stringify(books));
-            renderShelves();
-        } else {
-            alert("Invalid shelf names!");
-        }
-    });
-
     $("#remove-from-shelf").click(function() {
         var shelf = prompt("Enter the shelf to remove books from (currently-reading, want-to-read, read):");
         if (books[shelf]) {
