@@ -27,22 +27,17 @@ $(document).ready(function() {
             books[shelf].forEach(function(book) {
                 var bookKey = `${book.title} by ${book.author}`;
                 if (!seenBooks.has(bookKey)) {
-                    var moveButton = shelf !== "read" ? `<button class="btn btn-sm btn-info move-book" data-shelf="${shelf}" data-title="${book.title}" data-author="${book.author}">Move</button>` : '';
-                    var isFavorite = favorites.some(fav => fav.title === book.title && fav.author === book.author);
-                    var tooltipContent = `<strong>Comment:</strong> ${book.comment || 'No comment'}<br><strong>Date:</strong> ${book.date || 'No date'}`;
-
-                    $(shelfId).append(
-                        `<li class="shelf-list-item">
-                            <div class="book-title-container">
-                                <span class="book-title">${book.title} by ${book.author}</span>
-                                ${moveButton}
-                                <button class="btn btn-sm btn-primary comment-button" data-title="${book.title}" data-author="${book.author}" data-toggle="tooltip" data-html="true" title="${tooltipContent}">Comment</button>
-                            </div>
-                            <button class="btn-heart ${isFavorite ? 'liked' : ''}" data-title="${book.title}" data-author="${book.author}">
-                                ${isFavorite ? '❤︎' : '♡'}
-                            </button>
-                        </li>`
-                    );
+                    var moveButton = shelf !== "read" ? `<button class="btn btn-sm btn-info move-book" data-shelf="${shelf}" data-title="${book.title}" data-author="${book.author}"><i class="fas fa-arrow-right"></i> Move</button>` : '';
+                    var heartClass = favorites.includes(bookKey) ? 'btn-heart liked' : 'btn-heart';
+                    var listItem = `
+                        <li data-title="${book.title}" data-author="${book.author}">
+                            <img src="${book.image}" alt="${book.title}" class="img-thumbnail" style="max-width: 60px; margin-right: 15px;">
+                            <strong>${book.title}</strong> by ${book.author}
+                            ${moveButton}
+                            <button class="${heartClass}" data-toggle="tooltip" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+                            <button class="btn btn-sm btn-secondary comment-button" data-toggle="modal" data-target="#commentModal" data-title="${book.title}" data-author="${book.author}"><i class="fas fa-comment"></i> Comment</button>
+                        </li>`;
+                    $(shelfId).append(listItem);
                     seenBooks.add(bookKey);
                 }
             });
@@ -53,152 +48,76 @@ $(document).ready(function() {
                 $("#read-empty-message").hide();
             }
         }
-
-        // Re-initialize tooltips after dynamic content is added
-        $('[data-toggle="tooltip"]').tooltip();
-    }
-
-    function removeBookFromAllShelves(bookTitle, bookAuthor) {
-        for (var shelf in books) {
-            books[shelf] = books[shelf].filter(function(book) {
-                return !(book.title === bookTitle && book.author === bookAuthor);
-            });
-        }
-    }
-
-    function moveToNextShelf(bookTitle, bookAuthor, currentShelf) {
-        var nextShelf = {
-            "currently-reading": "want-to-read",
-            "want-to-read": "read",
-            "read": null
-        }[currentShelf];
-
-        if (nextShelf) {
-            var bookToMove = books[currentShelf].find(book => book.title === bookTitle && book.author === bookAuthor);
-            removeBookFromAllShelves(bookTitle, bookAuthor);
-            if (bookToMove) {
-                books[nextShelf].push(bookToMove);
-            }
-            localStorage.setItem('books', JSON.stringify(books));
-            renderShelves();
-        }
-    }
-
-    $(document).on('click', '.move-book', function() {
-        var bookTitle = $(this).data('title');
-        var bookAuthor = $(this).data('author');
-        var shelfFrom = $(this).data('shelf');
-        moveToNextShelf(bookTitle, bookAuthor, shelfFrom);
-    });
-
-    $("#remove-from-shelf").click(function() {
-        var shelf = prompt("Enter the shelf to remove books from (currently-reading, want-to-read, read):");
-        if (books[shelf]) {
-            books[shelf] = [];
-            localStorage.setItem('books', JSON.stringify(books));
-            renderShelves();
-        } else {
-            alert("Invalid shelf name!");
-        }
-    });
-
-    $(document).on('click', '.btn-heart', function() {
-        var title = $(this).data('title');
-        var author = $(this).data('author');
-
-        if ($(this).hasClass('liked')) {
-            favorites = favorites.filter(fav => !(fav.title === title && fav.author === author));
-            $(this).removeClass('liked').html('♡');
-        } else {
-            favorites.push({ title: title, author: author });
-            $(this).addClass('liked').html('❤︎');
-        }
-
-        $(this).addClass('bouncing');
-        setTimeout(() => $(this).removeClass('bouncing'), 600);
-
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-        renderShelves();
-        renderRecommendations();
-    });
-
-    $(document).on('click', '.comment-button', function() {
-        var title = $(this).data('title');
-        var author = $(this).data('author');
-        var book = books['currently-reading'].concat(books['want-to-read'], books['read'])
-            .find(b => b.title === title && b.author === author);
-
-        $('#comment').val(book ? book.comment || '' : '');
-        $('#date').val(book ? book.date || '' : '');
-        $('#commentModal').data('title', title).data('author', author).modal('show');
-    });
-
-    $('#save-comment').click(function() {
-        var title = $('#commentModal').data('title');
-        var author = $('#commentModal').data('author');
-        var comment = $('#comment').val();
-        var date = $('#date').val();
-
-        updateBookInfo(title, author, { comment, date });
-        $('#commentModal').modal('hide');
-        renderShelves();
-    });
-
-    function updateBookInfo(title, author, info) {
-        books = Object.keys(books).reduce((acc, shelf) => {
-            acc[shelf] = books[shelf].map(book => {
-                if (book.title === title && book.author === author) {
-                    return { ...book, ...info };
-                }
-                return book;
-            });
-            return acc;
-        }, {});
-
-        localStorage.setItem('books', JSON.stringify(books));
-    }
-
-    function renderRecommendations() {
-        var recommendedBooks = $('#recommended-books');
-        recommendedBooks.empty();
-
-        var recommended = [];
-
-        var readBooks = books['read'] || [];
-        readBooks.forEach(function(readBook) {
-            var currentlyReading = books['currently-reading'] || [];
-            var wantToRead = books['want-to-read'] || [];
-
-            currentlyReading.forEach(function(book) {
-                if (book.title !== readBook.title && book.author === readBook.author) {
-                    recommended.push(book);
-                }
-            });
-            wantToRead.forEach(function(book) {
-                if (book.title !== readBook.title && book.author === readBook.author) {
-                    recommended.push(book);
-                }
-            });
-        });
-
-        recommended = Array.from(new Set(recommended.map(book => `${book.title}${book.author}`)))
-            .map(key => recommended.find(book => `${book.title}${book.author}` === key))
-            .slice(0, 8);
-
-        recommended.forEach(function(book) {
-            recommendedBooks.append(
-                `<div class="col-md-3 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">${book.title}</h5>
-                            <p class="card-text">${book.author}</p>
-                        </div>
-                    </div>
-                </div>`
-            );
-        });
     }
 
     renderShelves();
-    renderRecommendations();
+
+    // Handle heart button click for favorites
+    $(document).on('click', '.btn-heart', function() {
+        var bookTitle = $(this).closest('li').data('title');
+        var bookAuthor = $(this).closest('li').data('author');
+        var bookKey = `${bookTitle} by ${bookAuthor}`;
+        var index = favorites.indexOf(bookKey);
+
+        if (index === -1) {
+            favorites.push(bookKey);
+            $(this).addClass('liked bouncing');
+        } else {
+            favorites.splice(index, 1);
+            $(this).removeClass('liked bouncing');
+        }
+
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    });
+
+    // Handle comment modal save button click
+    $('#save-comment').on('click', function() {
+        var bookTitle = $('#commentModal').find('[data-title]').data('title');
+        var bookAuthor = $('#commentModal').find('[data-title]').data('author');
+        var comment = $('#comment').val();
+        var startDate = $('#start-date').val();
+        var endDate = $('#end-date').val();
+
+        if (bookTitle && bookAuthor) {
+            var bookKey = `${bookTitle} by ${bookAuthor}`;
+            // Store or update comment with start and end dates
+            // For simplicity, we'll just log it here
+            console.log(`Comment for "${bookKey}": ${comment}, Start Date: ${startDate}, End Date: ${endDate}`);
+        }
+
+        $('#commentModal').modal('hide');
+    });
+
+    // Handle move button click
+    $(document).on('click', '.move-book', function() {
+        var bookTitle = $(this).data('title');
+        var bookAuthor = $(this).data('author');
+        var fromShelf = $(this).data('shelf');
+        var toShelf = fromShelf === 'currently-reading' ? 'want-to-read' : fromShelf === 'want-to-read' ? 'read' : 'currently-reading';
+
+        var bookIndex = books[fromShelf].findIndex(b => b.title === bookTitle && b.author === bookAuthor);
+        if (bookIndex !== -1) {
+            var book = books[fromShelf].splice(bookIndex, 1)[0];
+            books[toShelf].push(book);
+            localStorage.setItem('books', JSON.stringify(books));
+            renderShelves();
+        }
+    });
+
+    // Handle remove button click
+    $('#remove-from-shelf').on('click', function() {
+        var selectedItems = $("input:checked").closest('li');
+        selectedItems.each(function() {
+            var title = $(this).data('title');
+            var author = $(this).data('author');
+            for (var shelf in books) {
+                var bookIndex = books[shelf].findIndex(b => b.title === title && b.author === author);
+                if (bookIndex !== -1) {
+                    books[shelf].splice(bookIndex, 1);
+                    localStorage.setItem('books', JSON.stringify(books));
+                }
+            }
+        });
+        renderShelves();
+    });
 });
