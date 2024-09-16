@@ -121,6 +121,9 @@ $(document).ready(function() {
                             <button class="btn btn-sm btn-primary comment-button" data-title="${book.title}" data-author="${book.author}" data-toggle="tooltip" data-html="true" title="${tooltipContent}">
                                 <i class="fas fa-comment-dots"></i>
                             </button>
+                            <button class="btn btn-sm btn-info share-button" data-title="${book.title}" data-author="${book.author}">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
                         </div>
                         <button class="btn-heart liked" data-title="${book.title}" data-author="${book.author}" title="Remove from favorites">
                             ❤︎
@@ -177,47 +180,80 @@ $(document).ready(function() {
             books[shelf] = [];
             localStorage.setItem('books', JSON.stringify(books));
             renderShelves();
-            renderFavorites();
-        } else {
-            alert("Invalid shelf name!");
         }
     });
 
     $(document).on('click', '.btn-heart', function() {
-        var title = $(this).data('title');
-        var author = $(this).data('author');
+        var bookTitle = $(this).data('title');
+        var bookAuthor = $(this).data('author');
+        var isFavorite = $(this).hasClass('liked');
 
-        if ($(this).hasClass('liked')) {
-            favorites = favorites.filter(fav => !(fav.title === title && fav.author === author));
-            $(this).removeClass('liked').html('♡');
+        if (isFavorite) {
+            favorites = favorites.filter(fav => !(fav.title === bookTitle && fav.author === bookAuthor));
+            $(this).removeClass('liked').text('♡');
+            localStorage.setItem('favorites', JSON.stringify(favorites));
         } else {
-            favorites.push({ title: title, author: author });
-            $(this).addClass('liked').html('❤︎');
+            var book = books['currently-reading'].concat(books['want-to-read'], books['read'])
+                .find(b => b.title === bookTitle && b.author === bookAuthor);
+            if (book) {
+                favorites.push(book);
+                $(this).addClass('liked').text('❤︎');
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+            }
         }
-
-        localStorage.setItem('favorites', JSON.stringify(favorites));
         renderFavorites();
     });
 
+    $(document).on('click', '.share-button', function() {
+        var bookTitle = $(this).data('title');
+        var bookAuthor = $(this).data('author');
+        var shareTitle = `${bookTitle} by ${bookAuthor}`;
+        var shareText = `Check out this book: "${bookTitle}" by ${bookAuthor}`;
+
+        if (navigator.share) {
+            navigator.share({
+                title: shareTitle,
+                text: shareText,
+                url: window.location.href
+            }).then(() => {
+                console.log('Share was successful.');
+            }).catch((error) => {
+                console.log('Share failed:', error);
+            });
+        } else {
+            alert('Web Share API is not supported in this browser.');
+        }
+    });
     $(document).on('click', '.comment-button', function() {
-        var title = $(this).data('title');
-        var author = $(this).data('author');
-
+        var bookTitle = $(this).data('title');
+        var bookAuthor = $(this).data('author');
+    
+        // Open the modal and fill it with the book's data
+        $('#comment-title').val(bookTitle);
+        $('#comment-author').val(bookAuthor);
+    
+        // Fetch the book data from the localStorage or books object
         var book = books['currently-reading'].concat(books['want-to-read'], books['read'])
-            .find(b => b.title === title && b.author === author);
-
+            .find(b => b.title === bookTitle && b.author === bookAuthor);
+    
         if (book) {
-            $('#comment-title').val(book.title);
-            $('#comment-author').val(book.author);
             $('#comment-text').val(book.comment || '');
             $('#start-date').val(book.startDate || '');
             $('#end-date').val(book.endDate || '');
             $('#pages').val(book.pages || '');
-            $('#comment-modal').modal('show');
+        } else {
+            $('#comment-text').val('');
+            $('#start-date').val('');
+            $('#end-date').val('');
+            $('#pages').val('');
         }
+    
+        // Show the modal
+        $('#comment-modal').modal('show');
     });
-
-    $('#save-comment').click(function() {
+       // Handler for the Save Comment button in the modal
+       $('#save-comment').click(function() {
+        // Retrieve values from the form fields
         var title = $('#comment-title').val();
         var author = $('#comment-author').val();
         var comment = $('#comment-text').val();
@@ -225,22 +261,35 @@ $(document).ready(function() {
         var endDate = $('#end-date').val();
         var pages = $('#pages').val();
 
+        // Find the book from the combined shelves
         var book = books['currently-reading'].concat(books['want-to-read'], books['read'])
             .find(b => b.title === title && b.author === author);
 
         if (book) {
+            // Update the book's information
             book.comment = comment;
             book.startDate = startDate;
             book.endDate = endDate;
             book.pages = pages;
+
+            // Save the updated books data to localStorage
             localStorage.setItem('books', JSON.stringify(books));
+
+            // Hide the modal
             $('#comment-modal').modal('hide');
+
+            // Re-render shelves and favorites
             renderShelves();
             renderFavorites();
+        } else {
+            console.error('Book not found.');
         }
     });
 
-    // Initial render
+    // Initialize tooltips
+    $('[data-toggle="tooltip"]').tooltip();
+    
+    // Initial rendering
     renderShelves();
     renderFavorites();
 });
