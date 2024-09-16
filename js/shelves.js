@@ -18,6 +18,22 @@ $(document).ready(function() {
 
     var favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
+    function fetchBookCover(title, author, callback) {
+        var apiKey = 'AIzaSyC3iukQcbOeSrsZhwp-nymR9CEk45PULeU'; // Your API key
+        var query = encodeURIComponent(`${title} ${author}`);
+        var url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`;
+
+        $.getJSON(url, function(data) {
+            if (data.items && data.items.length > 0) {
+                var book = data.items[0].volumeInfo;
+                var coverImage = book.imageLinks ? book.imageLinks.thumbnail : 'path/to/default-cover.jpg';
+                callback(coverImage);
+            } else {
+                callback('path/to/default-cover.jpg');
+            }
+        });
+    }
+
     function renderShelves() {
         for (var shelf in books) {
             var shelfId = "#" + shelf;
@@ -33,6 +49,15 @@ $(document).ready(function() {
             books[shelf].forEach(function(book) {
                 var bookKey = `${book.title} by ${book.author}`;
                 if (!seenBooks.has(bookKey)) {
+                    // Fetch cover image if not available
+                    if (!book.coverImage) {
+                        fetchBookCover(book.title, book.author, function(coverImage) {
+                            book.coverImage = coverImage;
+                            localStorage.setItem('books', JSON.stringify(books));
+                            $(shelfId).find(`li[data-title="${book.title}"][data-author="${book.author}"] img`).attr('src', coverImage);
+                        });
+                    }
+
                     var moveButton = shelf !== "read" ? 
                         `<button class="btn btn-sm btn-info move-book" data-shelf="${shelf}" data-title="${book.title}" data-author="${book.author}" title="Move to next shelf"><i class="fas fa-arrow-right"></i></button>` : '';
                     var isFavorite = favorites.some(fav => fav.title === book.title && fav.author === book.author);
@@ -47,7 +72,7 @@ $(document).ready(function() {
                     `;
 
                     $(shelfId).append(
-                        `<li class="shelf-list-item">
+                        `<li class="shelf-list-item" data-title="${book.title}" data-author="${book.author}">
                             <img src="${book.coverImage || 'path/to/default-cover.jpg'}" alt="${book.title}" class="book-cover-img">
                             <div class="book-title-container">
                                 <span class="book-title">${book.title} by ${book.author}</span>
