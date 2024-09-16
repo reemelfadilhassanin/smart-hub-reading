@@ -854,3 +854,67 @@ body.night-mode .book-description {
   border-radius: 8px; /* Rounded corners */
   display: inline-block; /* Center align the message box */
 }
+
+/* Blogs Section Styles */
+.blogs {
+  background-color: #f9f9f9; /* Light background color */
+  padding: 40px 0; /* Top and bottom padding */
+}
+
+.blogs h3 {
+  text-align: center; /* Center-align the section title */
+  font-size: 2.5rem; /* Larger font size for the title */
+  margin-bottom: 30px; /* Space below the title */
+  font-family: 'Roboto', sans-serif; /* Change font family */
+  font-weight: 700; /* Make the font bold */
+  color: #333; /* Darker color for better readability */
+  text-transform: uppercase; /* Uppercase letters */
+  letter-spacing: 1px; /* Slightly spaced letters */
+}
+
+.blogs .card {
+  border: none; /* Remove default border */
+  border-radius: 10px; /* Rounded corners */
+  overflow: hidden; /* Ensure images fit within the card */
+  transition: transform 0.3s ease; /* Smooth transform transition */
+}
+
+.blogs .card:hover {
+  transform: scale(1.05); /* Slightly enlarge the card on hover */
+}
+
+.blogs .card-img-top {
+  height: 200px; /* Fixed height for images */
+  object-fit: cover; /* Ensure the image covers the area */
+}
+
+.blogs .card-body {
+  padding: 20px; /* Padding inside the card body */
+}
+
+.blogs .card-title {
+  font-size: 1.25rem; /* Slightly larger font for titles */
+  margin-bottom: 15px; /* Space below the title */
+}
+
+.blogs .card-text {
+  font-size: 1rem; /* Standard font size for text */
+  color: #666; /* Slightly gray color for text */
+}
+
+.blogs .btn-primary {
+  background-color: #007bff; /* Primary button color */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth color transition */
+}
+
+.blogs .btn-primary:hover {
+  background-color: #0056b3; /* Darker color on hover */
+}
+
+@media (max-width: 767px) {
+  .blogs .card {
+    margin-bottom: 20px; /* Space between cards on small screens */
+  }
+}

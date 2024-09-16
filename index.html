@@ -10,7 +10,6 @@
   <!-- Swiper CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
 </head>
 <body>
   
@@ -30,23 +29,21 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="shelves.html">Shelves</a>
-          
         </li>
         <li class="nav-item">
           <a class="nav-link" href="contact.html">Contact Us</a>
         </li>
-        
       </ul>
     </div>
   </nav>
 
+  <!-- Swiper Section -->
   <div class="container mt-5 pt-5">
-    <!-- Swiper Section -->
     <section class="home">
       <div class="row">
         <div class="content">
           <h3>The best online library</h3>
-          <p>More amazing book just for you!</p>
+          <p>More amazing books just for you!</p>
           <a href="books.html" class="btn btn-primary">Read Now</a>
         </div>
         <div class="swiper booka-slider">
@@ -63,6 +60,16 @@
       </div>
     </section>
   </div>
+
+  <!-- Blogs Section -->
+  <section class="blogs mt-5">
+    <div class="container">
+      <h3>Latest Blogs</h3>
+      <div class="row" id="blog-list">
+        <!-- Blog posts will be dynamically added here -->
+      </div>
+    </div>
+  </section>
 
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -97,36 +104,82 @@
           },
         },
       });
-    });
-  </script>
-  <!-- Footer Section -->
-<footer class="footer bg-dark text-white py-4">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <h5>About Us</h5>
-        <p>Smart Hub is your go-to online library for exploring amazing books and resources. Discover more about us and what we offer.</p>
-      </div>
-      <div class="col-md-3">
-        <h5>Quick Links</h5>
-        <ul class="list-unstyled">
-          <li><a href="index.html" class="text-white">Home</a></li>
-          <li><a href="books.html" class="text-white">Books</a></li>
-          <li><a href="shelves.html" class="text-white">Shelves</a></li>
-          <li><a href="contact.html" class="text-white">Contact Us</a></li>
-        </ul>
-      </div>
-      <div class="col-md-3">
-        <h5>Contact Us</h5>
-        <p>Email: support@smarthub.com</p>
-        <p>Phone: +249019865</p>
-      </div>
-    </div>
-    <div class="text-center mt-3">
-      <p>&copy; 2024 Smart Hub. All Rights Reserved.</p>
-    </div>
-  </div>
-</footer>
 
+      // Initialize the blogs section
+      populateBlogSection();
+    });
+
+    // Function to populate the blog posts section
+    function populateBlogSection() {
+      var blogPosts = [
+        {
+          title: "The Ultimate Guide to Reading",
+          excerpt: "Discover tips and tricks to make the most out of your reading experience.",
+          link: "blog/the-ultimate-guide-to-reading.html",
+          image: "img/blog1.jpg"
+        },
+        {
+          title: "Top 10 Books of 2024",
+          excerpt: "Find out which books are making waves this year.",
+          link: "blog/top-10-books-of-2024.html",
+          image: "img/blog2.jfif"
+        },
+        {
+          title: "How to Build a Reading Habit",
+          excerpt: "Learn how to develop a consistent reading routine.",
+          link: "blog/how-to-build-a-reading-habit.html",
+          image: "img/blog3.png"
+        }
+        // Add more blog posts as needed
+      ];
+
+      var blogList = document.getElementById('blog-list');
+      blogList.innerHTML = ''; // Clear existing content
+
+      blogPosts.forEach(post => {
+        var blogItem = `
+          <div class="col-md-4 mb-4">
+            <div class="card">
+              <img src="${post.image}" class="card-img-top" alt="${post.title}">
+              <div class="card-body">
+                <h5 class="card-title">${post.title}</h5>
+                <p class="card-text">${post.excerpt}</p>
+                <a href="${post.link}" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>`;
+        blogList.innerHTML += blogItem;
+      });
+    }
+  </script>
+  
+  <!-- Footer Section -->
+  <footer class="footer bg-dark text-white py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>About Us</h5>
+          <p>Smart Hub is your go-to online library for exploring amazing books and resources. Discover more about us and what we offer.</p>
+        </div>
+        <div class="col-md-3">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="index.html" class="text-white">Home</a></li>
+            <li><a href="books.html" class="text-white">Books</a></li>
+            <li><a href="shelves.html" class="text-white">Shelves</a></li>
+            <li><a href="contact.html" class="text-white">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5>Contact Us</h5>
+          <p>Email: support@smarthub.com</p>
+          <p>Phone: +249019865</p>
+        </div>
+      </div>
+      <div class="text-center mt-3">
+        <p>&copy; 2024 Smart Hub. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
