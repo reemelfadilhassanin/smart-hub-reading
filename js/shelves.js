@@ -6,15 +6,11 @@ $(document).ready(function() {
     $('#favorites-tab').html('<i class="fas fa-star"></i> Favorites');
 
     // Load books and favorites from localStorage
-    var books = JSON.parse(localStorage.getItem('books'));
-    if (!books || typeof books !== 'object' || Object.values(books).some(arr => !Array.isArray(arr))) {
-        books = {
-            "currently-reading": [],
-            "want-to-read": [],
-            "read": []
-        };
-        localStorage.setItem('books', JSON.stringify(books));
-    }
+    var books = JSON.parse(localStorage.getItem('books')) || {
+        "currently-reading": [],
+        "want-to-read": [],
+        "read": []
+    };
 
     var favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
@@ -199,47 +195,52 @@ $(document).ready(function() {
             $(this).addClass('liked').html('❤︎');
         }
 
-        $(this).addClass('bouncing');
-        setTimeout(() => $(this).removeClass('bouncing'), 600);
-
         localStorage.setItem('favorites', JSON.stringify(favorites));
-        renderShelves();
         renderFavorites();
     });
 
     $(document).on('click', '.comment-button', function() {
         var title = $(this).data('title');
         var author = $(this).data('author');
-        var book = books['currently-reading'].concat(books['want-to-read'], books['read'])
-            .find(b => b.title === title && b.author === author);
 
-        $('#comment').val(book ? book.comment || '' : '');
-        $('#start-date').val(book ? book.startDate || '' : '');
-        $('#end-date').val(book ? book.endDate || '' : '');
-        $('#pages').val(book ? book.pages || '0' : '');
-        $('#save-comment').data('title', title).data('author', author);
-    });
-
-    $('#save-comment').click(function() {
-        var title = $(this).data('title');
-        var author = $(this).data('author');
         var book = books['currently-reading'].concat(books['want-to-read'], books['read'])
             .find(b => b.title === title && b.author === author);
 
         if (book) {
-            book.comment = $('#comment').val();
-            book.startDate = $('#start-date').val();
-            book.endDate = $('#end-date').val();
-            book.pages = $('#pages').val();
+            $('#comment-title').val(book.title);
+            $('#comment-author').val(book.author);
+            $('#comment-text').val(book.comment || '');
+            $('#start-date').val(book.startDate || '');
+            $('#end-date').val(book.endDate || '');
+            $('#pages').val(book.pages || '');
+            $('#comment-modal').modal('show');
+        }
+    });
+
+    $('#save-comment').click(function() {
+        var title = $('#comment-title').val();
+        var author = $('#comment-author').val();
+        var comment = $('#comment-text').val();
+        var startDate = $('#start-date').val();
+        var endDate = $('#end-date').val();
+        var pages = $('#pages').val();
+
+        var book = books['currently-reading'].concat(books['want-to-read'], books['read'])
+            .find(b => b.title === title && b.author === author);
+
+        if (book) {
+            book.comment = comment;
+            book.startDate = startDate;
+            book.endDate = endDate;
+            book.pages = pages;
             localStorage.setItem('books', JSON.stringify(books));
+            $('#comment-modal').modal('hide');
             renderShelves();
             renderFavorites();
         }
     });
 
-    // Initialize tooltips
-    $('[data-toggle="tooltip"]').tooltip();
-
+    // Initial render
     renderShelves();
     renderFavorites();
 });
