@@ -10,6 +10,140 @@
   <!-- Swiper CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+  /* books.css */
+
+/* Common Styles for Book Items */
+.book-item {
+  text-align: center;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.book-item img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.book-item p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+.book-item .btn-primary {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+}
+
+/* Most Read Books Styles */
+.most-read-books {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f8f9fa; /* Light background for contrast */
+}
+
+.most-read-books h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+}
+
+/* Books For You Styles */
+.books-for-you {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f8f9fa; /* Light background for contrast */
+}
+
+.books-for-you h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+}
+
+/* Swiper Styles (Adjust as needed) */
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #eee;
+}
+
+.swiper-pagination {
+  bottom: 10px;
+}
+
+.swiper-button-next, .swiper-button-prev {
+  color: #000;
+}
+
+</style>
+<style>
+  /* General Footer Styles */
+  .footer {
+    background-color: #343a40; /* Dark background */
+    color: #ffffff; /* White text */
+    padding: 2rem 0; /* Padding for spacing */
+  }
+
+  .footer h5 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  .footer p {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+  }
+
+  .footer .row {
+    margin-bottom: 1rem;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .footer .row {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .footer .col-md-6, .footer .col-md-3 {
+      margin-bottom: 1rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .footer .col-md-6, .footer .col-md-3 {
+      width: 100%; /* Full width on very small screens */
+    }
+  }
+
+  /* Center the footer text on smaller screens */
+  @media (max-width: 576px) {
+    .footer .text-center {
+      text-align: center;
+    }
+  }
+</style>
 </head>
 <body>
   
@@ -48,7 +182,7 @@
         </div>
         <div class="swiper booka-slider">
           <div class="swiper-wrapper">
-            <a href="#" class="swiper-slide"><img src="img/book 1.jpg" alt="Book 1"></a>
+            <a href="#" class="swiper-slide"><img src="img/book1.jpg" alt="Book 1"></a>
             <a href="#" class="swiper-slide"><img src="img/book2.jpg" alt="Book 2"></a>
             <a href="#" class="swiper-slide"><img src="img/book3.jpg" alt="Book 3"></a>
             <a href="#" class="swiper-slide"><img src="img/book4.jpg" alt="Book 4"></a>
@@ -60,6 +194,29 @@
       </div>
     </section>
   </div>
+ <!-- Most Read Books Section -->
+  <section class="most-read-books">
+    <h2>Most Read Books</h2>
+    <div id="book-cards" class="d-flex flex-wrap justify-content-center">
+      <!-- Cards will be inserted here by JavaScript -->
+    </div>
+  </section>
+   <!-- Books For You Section -->
+   <section class="books-for-you mt-5">
+    <h2>Books For You</h2>
+    <div class="swiper books-for-you-slider">
+      <div class="swiper-wrapper" id="books-for-you-slider">
+        <!-- Slides will be dynamically added here by JavaScript -->
+      </div>
+      <!-- Swiper Pagination -->
+      <div class="swiper-pagination"></div>
+      <!-- Swiper Navigation -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  </section>
+
+
 
   <!-- Blogs Section -->
   <section class="blogs mt-5">
@@ -71,6 +228,7 @@
     </div>
   </section>
 
+
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <!-- Custom JS -->
@@ -80,6 +238,39 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   <script>
+ 
+// Function to fetch and populate books for the "Books For You" section
+async function fetchBooksForYou(apiUrl, containerId) {
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    const books = data.items;
+    const bookContainer = document.getElementById(containerId);
+    bookContainer.innerHTML = ''; // Clear existing content
+
+    books.forEach(book => {
+      const title = book.volumeInfo.title;
+      const image = book.volumeInfo.imageLinks?.thumbnail;
+      const link = book.volumeInfo.infoLink; // URL to open the book details
+
+      if (image) {
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+        slide.innerHTML = `
+          <div class="book-item">
+            <img src="${image}" alt="${title}">
+            <p>${title}</p>
+            <a href="${link}" class="btn btn-primary" target="_blank">Read</a>
+          </div>
+        `;
+        bookContainer.appendChild(slide);
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching books:', error);
+  }
+}
+
     document.addEventListener('DOMContentLoaded', function() {
       var swiper = new Swiper(".booka-slider", {
         loop: true,
@@ -151,8 +342,112 @@
         blogList.innerHTML += blogItem;
       });
     }
+
+    // Fetch and populate books for the "Most Read Books" section
+    async function fetchBooks() {
+  try {
+    const response = await fetch('https://www.googleapis.com/books/v1/volumes?q=best+books&maxResults=5');
+    const data = await response.json();
+    const books = data.items;
+    const bookContainer = document.getElementById('book-cards');
+    bookContainer.innerHTML = ''; // Clear existing content
+    
+    books.forEach(book => {
+      const title = book.volumeInfo.title;
+      const image = book.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/150';
+      const infoLink = book.volumeInfo.infoLink; // URL to the book's detail page
+      
+      const card = document.createElement('div');
+      card.className = 'book-item';
+      card.innerHTML = `
+        <img src="${image}" alt="${title}">
+        <p>${title}</p>
+        <a href="${infoLink}" class="btn btn-primary" target="_blank">Read</a>
+      `;
+      bookContainer.appendChild(card);
+    });
+  } catch (error) {
+    console.error('Error fetching books:', error);
+  }
+}
+
+// Initialize the books section on page load
+document.addEventListener('DOMContentLoaded', fetchBooks);
+
   </script>
-  
+  <script>
+   //for you js 
+   // books-for-you.js
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize Swiper for Books For You
+  var swiper = new Swiper('.books-for-you-slider', {
+    loop: true,
+    autoplay: {
+      delay: 3000, // 3 seconds
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+      320: {
+        slidesPerView: 1,
+        spaceBetween: 10,
+      },
+      480: {
+        slidesPerView: 2,
+        spaceBetween: 20,
+      },
+      768: {
+        slidesPerView: 3,
+        spaceBetween: 30,
+      },
+      1024: {
+        slidesPerView: 4,
+        spaceBetween: 40,
+      },
+    },
+  });
+
+  // Fetch and populate the Books For You section
+  fetchBooksForYou();
+});
+
+async function fetchBooksForYou() {
+  try {
+    const response = await fetch('https://www.googleapis.com/books/v1/volumes?q=recommended+books&maxResults=6');
+    const data = await response.json();
+    const books = data.items;
+    const bookContainer = document.getElementById('books-for-you-slider');
+    bookContainer.innerHTML = ''; // Clear existing content
+
+    books.forEach(book => {
+      const title = book.volumeInfo.title;
+      const image = book.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/150';
+      const infoLink = book.volumeInfo.infoLink;
+      const slide = document.createElement('div');
+      slide.className = 'swiper-slide';
+      slide.innerHTML = `
+        <div class="book-item">
+          <img src="${image}" alt="${title}">
+          <p>${title}</p>
+          <a href="${infoLink}" target="_blank" class="btn btn-primary">Read</a>
+        </div>
+      `;
+      bookContainer.appendChild(slide);
+    });
+  } catch (error) {
+    console.error('Error fetching books for you:', error);
+  }
+}
+
+  </script>
   <!-- Footer Section -->
   <footer class="footer bg-dark text-white py-4">
     <div class="container">
