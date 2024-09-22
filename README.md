@@ -45,13 +45,13 @@ To get a local copy up and running, follow these steps:
      python3 -m pip install --user virtualenv
      python3 -m venv env
 
-**Enable virtual environment**: `source env/bin/activate `
+Enable virtual environment: source env/bin/activate 
 
-**Install packages**: `pip install -r requirements.txt`
+Install packages: pip install -r requirements.txt
 
 
 3. Run the app:
- ```bash
+
 .\env\Scripts\activate  # For Windows
 
 Python
