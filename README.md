@@ -16,13 +16,13 @@ To get a local copy up and running, follow these steps:
 2. Run the app:
  ```bash
 .\env\Scripts\activate  # For Windows
- ```bash
+
 Python
- ```bash
+
 from project import create_app
- ```bash
+ 
 app = create_app()
- ```bash
+ 
 app.run()  # This should start the Flask development server
 
 
