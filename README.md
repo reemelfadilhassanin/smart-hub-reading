@@ -6,6 +6,32 @@ Smart Hub is your go-to online library for exploring amazing books and resources
 ## Author(s)
 - [REEM ALFADIL ABD ALLAH](https://github.com/reemelfadilhassanin) 
 
+## Demo
+
+### Login:
+
+![login page ](project/static/img/demo/login.JPG)
+
+### Singup:
+
+![singup page ](project/static/img/demo/signup.JPG)
+
+### banner section:
+
+![banner page ](project/static/img/demo/banner.JPG)
+
+### books:
+
+![books page ](project/static/img/demo/book.JPG)
+
+### shelves:
+
+![shelves page ](project/static/img/demo/shelves.JPG)
+
+### Favorit shelves:
+
+![favorit books page ](project/static/img/demo/favorit.JPG)
+
 ## Installation
 To get a local copy up and running, follow these steps:
 
@@ -14,6 +40,7 @@ To get a local copy up and running, follow these steps:
    git clone https://github.com/yourusername/smart-hub.git
 2. Install environment: 
 
+```bash
      python3 -m pip install --user --upgrade pip
      python3 -m pip install --user virtualenv
      python3 -m venv env
