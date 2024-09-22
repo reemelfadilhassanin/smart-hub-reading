@@ -33,11 +33,11 @@ Smart Hub is your go-to online library for exploring amazing books and resources
 ![favorit books page ](project/static/img/demo/favorit.JPG)
 
 ## Installation
-To get a local copy up and running, follow these steps:
+For installition follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/smart-hub.git
+   git clone https://github.com/reemelfadilhassanin/smart-hub-reading.git
 2. Install environment: 
 
 ```bash
