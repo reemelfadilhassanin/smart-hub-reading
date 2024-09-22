@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Smart Hub</title>
+  <link rel="icon" href="{{ url_for('static', filename='img/about.png') }}" type="image/x-icon">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      background-image: url('{{ url_for('static', filename='img/backgroundabout.jpg') }}'); /* Path to your background image */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    .banner {
+      background-image: url('{{ url_for('static', filename='img/aboutbanner-bg.jpg') }}'); /* Path to your banner image */
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+      padding: 5rem 0;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    .banner h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .banner p {
+      font-size: 1.25rem;
+    }
+    .contact-form {
+      background: rgba(249, 249, 249, 0.9);
+      padding: 2rem;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease-in-out;
+    }
+    .contact-form:hover {
+      transform: scale(1.02);
+    }
+    .contact-form label {
+      font-weight: bold;
+    }
+    .contact-form input, .contact-form textarea {
+      margin-bottom: 1rem;
+      border-radius: 5px;
+    }
+    .contact-form button {
+      background: #333;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .contact-form button:hover {
+      background: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed-top navbar 
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <a class="navbar-brand" href="{{ url_for('main.profile') }}"><i class="fas fa-book"></i> SMART HUB</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('main.profile') }}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('main.books') }}">Books</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('main.shelves') }}">Shelves</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('main.contact') }}">Contact Us</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('main.about') }}">About Us</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+-->
+  <!-- Banner Section -->
+  <section class="banner">
+    <div class="container">
+      <h1>About Smart Hub</h1>
+      <p>Your ultimate online library experience.</p>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">About Smart Hub</h2>
+    <div class="row">
+      <div class="col-md-12">
+        <p>Smart Hub is your go-to online library for exploring amazing books and resources. We provide a comprehensive platform where you can browse a vast collection of books, create your own virtual bookshelf, and explore new reading adventures.</p>
+        <h3>Features:</h3>
+        <ul>
+          <li><strong>Browse and Search:</strong> Easily find books with our powerful search functionality. Explore a wide range of genres and authors.</li>
+          <li><strong>Add to Shelf:</strong> Keep track of your favorite books by adding them to your personal shelf. Manage and organize your collection effortlessly.</li>
+          <li><strong>Read and Review:</strong> Read detailed book descriptions and user reviews. Share your own thoughts and experiences with our community.</li>
+          <li><strong>API Integration:</strong> Our platform integrates with various book APIs to provide you with up-to-date information and a rich selection of books.</li>
+        </ul>
+        <p>We are committed to providing an exceptional reading experience and continually improving our services based on your feedback.</p>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- Footer Section -->
+  <footer class="footer bg-dark text-white py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>About Us</h5>
+          <p>Smart Hub is your go-to online library for exploring amazing books and resources. Discover more about us and what we offer.</p>
+        </div>
+        <div class="col-md-3">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="{{ url_for('main.profile') }}" class="text-white">Home</a></li>
+            <li><a href="{{ url_for('books') }}" class="text-white">Books</a></li>
+            <li><a href="{{ url_for('shelves') }}" class="text-white">Shelves</a></li>
+            <li><a href="{{ url_for('contact') }}" class="text-white">Contact Us</a></li>
+            <li><a href="{{ url_for('about') }}" class="text-white">About Us</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5>Contact Us</h5>
+          <p>Email: support@smarthub.com</p>
+          <p>Phone: +249019865</p>
+        </div>
+      </div>
+      <div class="text-center mt-3">
+        <p>&copy; 2024 Smart Hub. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <!-- Custom JS -->
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+  <!-- JavaScript and Bootstrap dependencies -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</body>
+</html>
+{% endblock %}

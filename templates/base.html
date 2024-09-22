@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login System</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css')}}">
+  <link rel="icon" href="{{ url_for('static', filename='img/icone.jpg') }}" type="image/x-icon">
+
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" href="{{ url_for('static', filename='img/icone.jpg') }}" type="image/x-icon">
+
+  <!--<style>
+    /* Ensure the body takes full height */
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    /* Main container to take up available space */
+    .content {
+      min-height: calc(100vh - 60px); /* Adjust for footer height */
+      padding-bottom: 60px; /* Space for the footer */
+    }
+
+    /* Footer styles */
+    .footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 60px; /* Adjust height as needed */
+  background-color: #343a40; /* Dark background */
+  color: white;
+  text-align: center;
+  padding: 10px 0; /* Vertical padding */
+/*margin-bottom: -10px; /* Move the footer up */
+}
+
+  </style>-->
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container"></div>  
+    <div class="nav justify-content-end">
+      <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
+        
+      {% if current_user.is_authenticated %}
+        <a class="nav-link" href="{{ url_for('main.profile') }}">Profile</a>
+      {% endif %}
+
+      {% if current_user.is_authenticated %}
+        <a class="nav-link" href="{{ url_for('main.books') }}">Books</a>
+      {% endif %}
+      
+      {% if current_user.is_authenticated %}
+        <a class="nav-link" href="{{ url_for('main.shelves') }}">Shelves</a>
+      {% endif %}
+      
+      {% if current_user.is_authenticated %}
+        <a class="nav-link" href="{{ url_for('main.contact') }}">Contact Us</a>
+      {% endif %}
+      
+      {% if current_user.is_authenticated %}
+        <a class="nav-link" href="{{ url_for('main.about') }}">About Us</a>
+      {% endif %}
+      
+      {% if not current_user.is_authenticated %}
+        <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+      {% endif %}
+      
+      {% if not current_user.is_authenticated %}
+        <a class="nav-link" href="{{ url_for('auth.signup') }}">Sign up</a>
+      {% endif %}
+
+      {% if current_user.is_authenticated %}
+        <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <div class="container-fluid"> 
+    {% block content %}
+    {% endblock %}
+  </div>
+ <!-- Footer Section 
+ <footer class="footer bg-dark text-white py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h5>About Us</h5>
+        <p>Smart Hub is your go-to online library for exploring amazing books and resources. Discover more about us and what we offer.</p>
+      </div>
+      <div class="col-md-3">
+        <h5>Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="index.html" class="text-white">Home</a></li>
+          <li><a href="books.html" class="text-white">Books</a></li>
+          <li><a href="shelves.html" class="text-white">Shelves</a></li>
+          <li><a href="contact.html" class="text-white">Contact Us</a></li>
+          <li><a href="about.html" class="text-white">About Us</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h5>Contact Us</h5>
+        <p>Email: support@smarthub.com</p>
+        <p>Phone: +249019865</p>
+      </div>
+    </div>
+    <div class="text-center mt-3">
+      <p>&copy; 2024 Smart Hub. All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>-->
+  
+</body>
+
+</html>
