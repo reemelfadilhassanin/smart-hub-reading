@@ -12,8 +12,18 @@ To get a local copy up and running, follow these steps:
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/smart-hub.git
+2. Install environment: 
 
-2. Run the app:
+     python3 -m pip install --user --upgrade pip
+     python3 -m pip install --user virtualenv
+     python3 -m venv env
+
+**Enable virtual environment**: `source env/bin/activate `
+
+**Install packages**: `pip install -r requirements.txt`
+
+
+3. Run the app:
  ```bash
 .\env\Scripts\activate  # For Windows
 
